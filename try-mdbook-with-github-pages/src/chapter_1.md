@@ -29,7 +29,7 @@ My main reasons for using mdBook:
 Hugo (in Golang) does not support math by default,
 and setup is more complicated than mdbook.
 Its documentation seems extensive, but
-it seemsto be made for the developers of Hugo
+it seems to be made for the developers of Hugo
 who have lots of knowledge about underlying technologies,
 rather than for general users,
 i.e., it is difficult to navigate for users
