@@ -1,2 +1,7 @@
 # try-mdbook
-Try mdBook
+
+Plans
+
+- [ ] Use math
+- [ ] Disable print
+- [ ] Customize `highlight.js`.
