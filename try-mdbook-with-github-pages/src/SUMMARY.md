@@ -1,7 +1,8 @@
-# Building a web site using mdBook and GitHub Actions
+# Building a static web site using mdBook and GitHub Actions
 
-July 2024
+[Introduction](README.md)
+
+# Table of Contents
 
 - [Selecting SSG tool](selecting-ssg-tool.md)
-- [Chapter 1](./chapter_1.md)
-- [Using mdBook](./using-mdbook.md)
+- [Using mdBook](using-mdbook.md)
