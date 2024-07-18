@@ -7,3 +7,4 @@ title = "Try mdBook with GitHub Pages"
 
 [output.html]
 site-url = "/try-mdbook-with-github-pages/"
+mathjax-support = true
