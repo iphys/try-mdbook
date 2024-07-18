@@ -55,9 +55,9 @@ mathjax-support = true
 Once your local reposiory is ready for build,
 run `mdbook serve --open`.
 It builds the site locally, stores files under `book` folder,
-and opens the browser to.
+and opens the browser.
 The contents are dynamically reloaded
-as you edit the source.
+as you edit and save the source.
 
 Check that math works.
 This one is inline math:
