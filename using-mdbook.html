@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Using mdBook - Try mdBook with GitHub Pages</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><li class="part-title">Table of Contents</li><li class="chapter-item expanded "><a href="selecting-ssg-tool.html"><strong aria-hidden="true">1.</strong> Selecting SSG tool</a></li><li class="chapter-item expanded "><a href="using-mdbook.html" class="active"><strong aria-hidden="true">2.</strong> Using mdBook</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Try mdBook with GitHub Pages</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="using-mdbook"><a class="header" href="#using-mdbook">Using mdBook</a></h1>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<p>Create a repository in github.
+Only <code>README.md</code> file is enough at this stage.</p>
+<p>Clone the repository in your machine.</p>
+<p>Download the pre-built binary program and saved it
+in the root folder of the cloned local repository.
+Do NOT add it to git.
+(Use <code>.gitignore</code> to exclude.)</p>
+<p>On the command shell,
+initialize the book folder at the repository root
+and <code>cd</code> to it.
+(You must replace <code>&lt;repository-root&gt;</code> with your repository
+root folder. <code>mdbook.exe</code> is for Windows.)</p>
+<pre><code class="language-bash">cd &lt;repository-root&gt;
+./mdbook.exe init try-mdbook-with-github-pages
+cd try-mdbook-with-github-pages
+</code></pre>
+<p>By specifying <strong>try-mdbook-with-github-pages</strong> for
+<strong>mdbook init</strong>,
+mdBook creates the <strong>book</strong> and <strong>src</strong> folders under it.
+The use of the <strong>try-mdbook-with-github-pages</strong> folder
+affects the build workflow only.
+It does not appear in the release page at all.</p>
+<ul>
+<li>
+<p><code>&lt;repository-root&gt;</code> &gt;
+<code>try-mdbook-with-github-pages</code> &gt; <code>src</code></p>
+<ul>
+<li>You add your article Markdown files under this folder.</li>
+</ul>
+</li>
+<li>
+<p><code>&lt;repository-root&gt;</code> &gt;
+<code>try-mdbook-with-github-pages</code> &gt; <code>book</code></p>
+<ul>
+<li>mdBook generates static site contents under this folder.
+Do <em>NOT</em> add files under it to git because
+they are created during CI process in the remote.
+The <code>book</code> folder in your local repository is used to
+locally generate contents and view them.</li>
+</ul>
+</li>
+</ul>
+<p>In the <code>html.toml</code> file in the repository root, add these lines.
+Do not delete existing lines.</p>
+<pre><code class="language-toml">[output.html]
+site-url = "/try-mdbook-with-github-pages/"
+mathjax-support = true
+</code></pre>
+<p>Once your local reposiory is ready for build,
+run <code>mdbook serve --open</code>.
+It builds the site locally, stores files under <code>book</code> folder,
+and opens the browser.
+The contents are dynamically reloaded
+as you edit and save the source.</p>
+<p>Check that math works.
+This one is inline math:
+\( \int x dx = \frac{1}{2} x^2 + C \).
+A text can follow on the same line after the inline math. 👍</p>
+<p>Here is display style math 👍</p>
+<p>\[ \mu = \frac{1}{N} \sum_{i=1}^N x_i \]</p>
+<h3 id="setup-github-actions-workflow-file"><a class="header" href="#setup-github-actions-workflow-file">Setup GitHub Actions workflow file</a></h3>
+<p>Add a YAML file for building the site using GitHub Actions.
+Base filename can be arbitrary, but its file extension
+must be <code>yml</code>.
+For example, use <code>deploy-mdbook.yml</code>,
+and put it in the <code>.github/workflows</code> folder.</p>
+<ul>
+<li><a href="https://github.com/iphys/try-mdbook/blob/main/.github/workflows/deploy-book.yml">https://github.com/iphys/try-mdbook/blob/main/.github/workflows/deploy-book.yml</a></li>
+</ul>
+<p>The yml file is configured with two phases.
+First phase is to create a CI job instance, clone the repository,
+and install the latest mdbook.
+Second phase is to build the site contents in the CI job instance
+and push to the repository.
+If the process finishes successfully,
+GitHub automatically deploys the generated site to
+the default GitHub Pages site.
+The followings are the step-by-step description of
+the second phase.</p>
+<ul>
+<li>In the CI job instance machine,
+cd to the <code>try-mdbook-with-github-pages</code> folder.</li>
+<li>Build the site contents.</li>
+<li>Use <a href="https://git-scm.com/docs/git-worktree"><strong>git worktree</strong></a> to create
+the <code>gh-pages</code> branch and folder.
+The folder becomes the repository root for the worktree branch.</li>
+<li>Cd to the <code>gh-pages</code> folder.</li>
+<li>Delete the <a href="https://git-scm.com/book/en/v2/Git-Internals-Git-References">git reference file</a> for
+the <code>gh-pages</code> branch with the
+"<a href="https://git-scm.com/docs/git-update-ref">git update-ref -d</a>" command.
+This also deletes commit history for the branch.
+You can confirm in the <a href="https://github.com/iphys/try-mdbook/commits/gh-pages/">commit history page</a>
+in github that
+the commit history has always only one commit record.
+The reason for always resetting the commit history for
+the <code>gh-pages</code> branch is that all of the contents in it are
+automatically generated from scratch whenever
+the mdbook build runs during CI.
+If you want to see the commit history of this repository,
+you should see it for the <code>main</code> branch
+because it is the branch where you make edits.</li>
+<li>Move the generated files from the <code>book</code> folder to
+the <code>gh-pages</code> folder.</li>
+<li>Add and commit the <code>gh-pages</code> branch.
+This takes place in the CI job instance machine,
+not in your local machine.</li>
+<li>Push the <code>gh-pages</code> branch from the CI machine
+to the remote repository.</li>
+</ul>
+<p>Below is an excerpt from the <a href="https://github.com/iphys/try-mdbook/blob/main/.github/workflows/deploy-book.yml">GitHub Actions YML file</a>
+which does the step-by-step operations described above.</p>
+<pre><code class="language-bash">cd try-mdbook-with-github-pages
+mdbook build
+git worktree add gh-pages
+git config user.name "Deploy from CI"
+git config user.email ""
+cd gh-pages
+# Delete the ref to avoid keeping history.
+git update-ref -d refs/heads/gh-pages
+rm -rf *
+mv ../book/* .
+git add .
+git commit -m "Deploy $GITHUB_SHA to gh-pages"
+git push --force --set-upstream origin gh-pages
+</code></pre>
+<h3 id="setup-in-github"><a class="header" href="#setup-in-github">Setup in GitHub</a></h3>
+<p>In the GitHub repository, navigate to <strong>Setting</strong> &gt; <strong>Pages</strong>.</p>
+<p>For the Source setting, select "Deploy from branch".
+("GitHub Actions" would also work,
+but it requires different setups.)</p>
+<p>For the Branch setting,
+specify the <code>gh-pages</code> branch and the <code>/(root)</code> folder.</p>
+<h3 id="build-and-deploy"><a class="header" href="#build-and-deploy">Build and deploy</a></h3>
+<p>To see that the site files are generaged as expected,
+<a href="https://github.com/iphys/try-mdbook">go to the repository</a>
+in the browser and select
+the <a href="https://github.com/iphys/try-mdbook/tree/gh-pages"><code>gh-pages</code> branch</a>.
+Check that the repository root contains
+the <code>index.html</code> file and other resources for the page.</p>
+<p>The released site:</p>
+<ul>
+<li><a href="https://iphys.github.io/try-mdbook/index.html">https://iphys.github.io/try-mdbook/index.html</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="selecting-ssg-tool.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="selecting-ssg-tool.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
